@@ -1,0 +1,26 @@
+sudo | grep debugfs
+sudo su
+cd /sys/kernel/debug/tracing
+echo > trace
+echo function > current_tracer
+echo tcp_v4_rcv > set_ftrace_filter
+echo 1 > tracing_on
+ping -c 25 127.0.0.1
+echo 0 > tracing_on
+cat trace > ~/tcp_v4_rcv_trace.log
+sudo trace-cmd record -p function -l tcp_v4_rcv
+trace-cmd report
+
+
+kprobes to probe kernal functions
+cd /sys/kernel/tracing
+echo 'p:tcp_probe tcp_v4_rcv' > kprobe_events
+echo 1 > events/kprobes/tcp_probe/enable
+ping google.com
+cat trace
+kfree_skb()
+echo kfree_skb > set_ftrace_filter
+echo function_graph > current_tracer
+echo tcp_v4_rcv > set_ftrace_filter
+cat trace
+

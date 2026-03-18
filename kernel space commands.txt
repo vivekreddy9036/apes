@@ -1,0 +1,16 @@
+ping -c 5 127.0.0.1
+sudo tc qdisc add dev lo root netem delay 150ms
+ping -c 5 127.0.0.1
+sudo tc qdisc change dev lo root netem delay 250ms 50ms
+sudo tc qdisc del dev lo root
+
+
+cat /proc/softirgs
+
+
+#kernel space and user space
+ls /usr/include/netinet/
+cat /usr/include/netinet/ip.h
+cat /usr/include/netinet/tcp.h
+cat /usr/include/netinet/udp.h
+
